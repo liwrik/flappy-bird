@@ -1,0 +1,12 @@
+canvas{
+    display: block;
+    border: 2px solid black;
+    background-image: url("/background.png");
+    background-size: cover;
+}
+
+.app{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
