@@ -92,7 +92,7 @@ class Pipe{
             this.top_pipe.x = canvas.width
             this.down_pipe.x = canvas.width
 
-            let interval = 180
+            let interval = 200
             let min_h = 50
             let max_random_h = canvas.height - min_h - min_h - interval
             
@@ -167,7 +167,7 @@ function loop() {
 
   if (isCollision(bird, pipe_two.top_pipe)) {
     end_Game()
-     return;
+    return;
   }
 
 
@@ -187,14 +187,14 @@ function loop() {
     // pipe_one.fly = true;
     bird.point++;
     console.log(bird.point);
-    pipe_one.fly == true;
+    pipe_one.fly = true;
   }
 
   if (isRightOf(bird, pipe_two.top_pipe) && pipe_two.fly == false) {
     // pipe_two.fly = true;
     bird.point++;
     console.log(bird.point);
-    pipe_one.fly == true;
+    pipe_two.fly = true;
   }
     requestAnimationFrame(loop);
 }
