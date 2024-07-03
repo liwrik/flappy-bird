@@ -167,7 +167,7 @@ function loop() {
 
   if (isCollision(bird, pipe_two.top_pipe)) {
     end_Game()
-    return;
+     return;
   }
 
 
