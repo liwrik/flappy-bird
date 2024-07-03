@@ -44,7 +44,7 @@ class Pipe{
         let max_random_h = canvas.height - min_h - min_h - interval
         
         let speed = -3
-        let width = 50
+        let width = 50 
         this.fly = false
 
         this.top_pipe = {
@@ -57,7 +57,7 @@ class Pipe{
         }
 
         this.down_pipe = {
-            start_: x,
+            start_x: x,
             x: x,
             y: this.top_pipe.height + interval, 
             width: width,
@@ -92,7 +92,7 @@ class Pipe{
             this.top_pipe.x = canvas.width
             this.down_pipe.x = canvas.width
 
-            let interval = 200
+            let interval = 180
             let min_h = 50
             let max_random_h = canvas.height - min_h - min_h - interval
             
@@ -104,10 +104,41 @@ class Pipe{
     }
 }
 //Функции
+function isCollision(rect1, rect2) {
+    return (
+        rect1.x < rect2.x + rect2.width &&
+        rect1.x + rect1.width > rect2.x &&
+        rect1.y < rect2.y + rect2.height &&
+        rect1.y + rect1.height > rect2.y
+    );
+}
 
+function isRightOf(rectA, rectB) {
+    return rectA.x > rectB.x + rectB.width;
+}
+
+function end_Game() {
+    endGame.classList.add("end_game__open")
+    score.innerHTML = bird.point
+}
+
+restart.addEventListener("click", function () {
+    endGame.classList.remove("end_game__open")
+    bird.x = bird.start_x
+    bird.y = bird.start_y
+    bird.speed = 0
+    bird.point = 0
+
+    pipe_one.top_pipe.x = first_x
+    pipe_one.down_pipe.x = first_x
+
+    pipe_two.top_pipe.x = first_x + (canvas.width + pipe_one.top_pipe.width) / 2
+    pipe_two.down_pipe.x =
+      first_x + (canvas.width + pipe_one.top_pipe.width) / 2
+    loop()
+})
 //Создание объектов
 const bird = new Bird()
-
 let first_x = canvas.width / 2
 let pipe_one = new Pipe(first_x)
 let pipe_two = new Pipe(first_x + (canvas.width + pipe_one.top_pipe.width) / 2)
@@ -122,6 +153,49 @@ function loop() {
     pipe_two.draw()
     pipe_one.move()
     pipe_two.move()
+  if (isCollision(bird, pipe_one.top_pipe)) {
+    end_Game()
+    return;
+  }
+
+
+  if (isCollision(bird, pipe_one.down_pipe)) {
+    end_Game()
+    return;
+  }
+
+
+  if (isCollision(bird, pipe_two.top_pipe)) {
+    end_Game()
+    return;
+  }
+
+
+  if (isCollision(bird, pipe_two.down_pipe)) {
+    end_Game()
+    return;
+  }
+
+
+  if (bird.y < 0 || bird.y + bird.width > canvas.height) {
+    end_Game()
+    return;
+  }
+
+
+  if (isRightOf(bird, pipe_one.top_pipe) && pipe_one.fly == false) {
+    // pipe_one.fly = true;
+    bird.point++;
+    console.log(bird.point);
+    pipe_one.fly == true;
+  }
+
+  if (isRightOf(bird, pipe_two.top_pipe) && pipe_two.fly == false) {
+    // pipe_two.fly = true;
+    bird.point++;
+    console.log(bird.point);
+    pipe_one.fly == true;
+  }
     requestAnimationFrame(loop);
 }
 
